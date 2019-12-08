@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -8,9 +9,12 @@ module.exports = {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name].js'
   },
+  plugins: [new HtmlWebpackPlugin({
+    template: 'build/tpl/index.html'
+  })],
   resolve: {
     // Add `.ts` and `.tsx` as a resolvable extension.
-    extensions: [".ts", ".tsx", ".js"]
+    extensions: [".ts", ".tsx", ".js", '.jsx']
   },
   module: {
     rules: [
