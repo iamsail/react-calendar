@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-      app: path.join(__dirname, './..', 'src/index.tsx')
+      app: path.join(__dirname, './..', 'src/index.ts')
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
@@ -19,7 +19,7 @@ module.exports = {
   module: {
     rules: [
         // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-        { test: /\.tsx?$/, loader: "ts-loader" }
+        { test: /\.tsx?$/, loader: ['babel-loader', "ts-loader"]}
     ]
   }
 };
