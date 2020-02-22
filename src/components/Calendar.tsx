@@ -8,13 +8,19 @@ export interface Props {
 }
 
 interface State {
-    daysArr: Array<Array<object>>;
+    // daysArr: Array<Array<any>>;
+    daysArr: Array<Array<{
+        day: number
+        info: string
+    }>>;
 };
 
 
 class Calendar extends React.Component<Props, State> {
     constructor(props: Props) {
       super(props);
+      // 这个很重要，设置时区
+      moment.locale('zh-cn');
       this.state = {
           daysArr: this.generateMonthDay(moment().year(), moment().month())
       }
@@ -27,12 +33,9 @@ class Calendar extends React.Component<Props, State> {
    * @param {*} date 
    */
     generateMonthDay(year: number, month: number) {
-        console.log('generateMonthDay=====> ', year, month);
         const date = [year, month];
         // const daysArr:  = [[], [], [], [], [], []]; // 5*7的日历数组
-        // const daysArr: Array<Array<any>> = [[], [], [], [], [], []];
-        const daysArr: Array<Array<any>> = [...new Array(6).fill([])];
-        console.log('daysArr=====> ', daysArr);
+        const daysArr: Array<Array<any>> = [[], [], [], [], [], []];
 
         // 这里因为时区的问题，需要加1 。moment官网的，不是zh-cn
         const currentWeekday = moment(date).date(1).weekday() + 1; // 获取当月1日为星期几
@@ -45,8 +48,9 @@ class Calendar extends React.Component<Props, State> {
           let virtualDay = (lastMonthDays - currentWeekday) + i + 1;
           for (let j = 0; j < 6; j += 1) {
             daysArr[j][i] = {};
-            daysArr[j][i].day = getDay(virtualDay + (j * 7));
-            daysArr[j][i].info = "正常";
+            let temp = getDay(virtualDay + (j * 7));
+            daysArr[j][i].day = temp;
+            daysArr[j][i].info = "正常" + j + i;
           }
         }
         return daysArr;
@@ -78,7 +82,29 @@ class Calendar extends React.Component<Props, State> {
                     </ul>
                 </div>
                 <div className="calendar-day-wrapper">
-
+                    {
+                        daysArr ?
+                            <div>
+                                {
+                                    daysArr.map((item, row) => {
+                                        return <ul key={row}> 
+                                            {
+                                                item.map((val, col) => {
+                                                    return <li
+                                                        key={`${row}-${val}-${col}-x`} 
+                                                    >
+                                                        <span>
+                                                            {val.day}
+                                                        </span>
+                                                    </li>
+                                                })
+                                            }
+                                         </ul>
+                                    })
+                                }
+                            </div>
+                        : null
+                    }
                 </div>
             </div>
             <div className="footer"></div>
