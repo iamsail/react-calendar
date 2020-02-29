@@ -50,7 +50,7 @@ class Calendar extends React.Component<Props, State> {
             daysArr[j][i] = {};
             let temp = getDay(virtualDay + (j * 7));
             daysArr[j][i].day = temp;
-            daysArr[j][i].info = "正常" + j + i;
+            daysArr[j][i].info = "正常";
           }
         }
         return daysArr;
@@ -93,8 +93,11 @@ class Calendar extends React.Component<Props, State> {
                                                     return <li
                                                         key={`${row}-${val}-${col}-x`} 
                                                     >
-                                                        <span>
+                                                        <span className="day-num">
                                                             {val.day}
+                                                        </span>
+                                                        <span className="text">
+                                                            {val.info}
                                                         </span>
                                                     </li>
                                                 })
@@ -107,7 +110,10 @@ class Calendar extends React.Component<Props, State> {
                     }
                 </div>
             </div>
-            <div className="footer"></div>
+            <div className="footer">
+
+            </div>
+
         </div>
       );
     }
