@@ -1,4 +1,24 @@
+@import "./variables.less";
+
 .Calendar-wrapper {
+
+    .header {
+        border-bottom: 1px solid black;
+
+
+        .month-picker {
+            position: relative;
+            display: inline-block;
+        }
+
+        .today {
+            position: absolute;
+            display: inline-block;
+            right: 20px;
+            color: @todayColor;
+        }
+    }
+
     .body {
         .week-day-wrapper {
 
@@ -38,7 +58,22 @@
                     display: block;
                     font-size: 10px
                 }
+
+
+                .@{dayStatus}-normal {
+                    // position: absolute;
+                    display: inline-block;
+                    z-index: -1;
+                    background: #5F77ED;
+                    border-radius: 50%;
+                    width: 45px;
+                    height: 45px;
+                    bottom: -9px;
+                }
             }
+
+
+
         }
        
 

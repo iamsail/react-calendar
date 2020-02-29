@@ -11,8 +11,10 @@ interface State {
     // daysArr: Array<Array<any>>;
     daysArr: Array<Array<{
         day: number
-        info: string
+        info: string,
+        status: string
     }>>;
+    today: number // 今天
 };
 
 
@@ -22,13 +24,16 @@ class Calendar extends React.Component<Props, State> {
       // 这个很重要，设置时区
       moment.locale('zh-cn');
       this.state = {
-          daysArr: this.generateMonthDay(moment().year(), moment().month())
+          daysArr: this.generateMonthDay(moment().year(), moment().month()),
+          today: moment().date()
       }
     }
 
   /**
    * 参考链接: https://segmentfault.com/q/1010000009206517 数据格式
    * 前端生成每个月的日历
+   * 
+   * 这个时间算法后面可以写一篇文章
    * 
    * @param {*} date 
    */
@@ -51,24 +56,40 @@ class Calendar extends React.Component<Props, State> {
             let temp = getDay(virtualDay + (j * 7));
             daysArr[j][i].day = temp;
             daysArr[j][i].info = "正常";
+            daysArr[j][i].status = "normal";
           }
         }
         return daysArr;
     }
 
+    pickDay(day: number) {
+
+    }
+
+    setToday() {
+        console.log('setToday====>', moment().date());
+    }
+
     render() {
 
       const {
-        daysArr
+        daysArr,
+        today
       } = this.state;
-
-      console.log('daysArr======> ', daysArr);
 
 
       return (
         <div className="Calendar-wrapper">   
-            我是日历组件
-            <div className="header"></div>
+            <div className="header">
+                <div className="month-picker">
+                    月份切换
+                </div>
+                <div
+                    onClick={() => this.setToday()}
+                    className="today">
+                    今天
+                </div>
+            </div>
             <div className="body">
                 <div className="week-day-wrapper">
                     <ul>		
@@ -90,7 +111,10 @@ class Calendar extends React.Component<Props, State> {
                                         return <ul key={row}> 
                                             {
                                                 item.map((val, col) => {
+                                                    
                                                     return <li
+                                                        // className={`day-status day-status-${val.status}  ${showToday ? "cur-today": null}`}
+                                                        className={`day-status day-status-${val.status}`}
                                                         key={`${row}-${val}-${col}-x`} 
                                                     >
                                                         <span className="day-num">
